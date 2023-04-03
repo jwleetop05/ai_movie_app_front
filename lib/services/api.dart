@@ -44,7 +44,8 @@ class Api{
     }
   }
   Future<List<MovieCompany>> fetchMovieCompanyData(String companyNm) async {
-    final response = await getResponse('http://www.kobis.or.kr/kobisopenapi/webservice/rest/company/searchCompanyList.json?'
+    final response = await getResponse(
+        'http://www.kobis.or.kr/kobisopenapi/webservice/rest/company/searchCompanyList.json?'
         'key=$apiKey'
         '&curPage'
         '&itemPerPage'

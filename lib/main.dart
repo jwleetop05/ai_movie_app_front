@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Colors.grey.withOpacity(0.6),
                                             blurRadius: 12.0,
                                             spreadRadius: -20.0,
-                                            offset: Offset(0.0, -40),
+                                            offset: const Offset(0.0, -40),
                                           ),
                                         ],
                                       ),

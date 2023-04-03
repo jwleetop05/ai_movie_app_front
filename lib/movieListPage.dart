@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/models/getMoviePoster.dart';
@@ -13,8 +14,8 @@ class MovieListPage extends StatefulWidget {
 }
 
 class _MovieListPageState extends State<MovieListPage> {
-  Future<List<GetMoviePoster>>? searchMovieList;
-  Future<List<MovieData>>? movieData;
+  late Future<List<GetMoviePoster>> searchMovieList;
+  late Future<List<MovieData>> movieData;
   final Api api = Api();
 
   @override
@@ -26,6 +27,7 @@ class _MovieListPageState extends State<MovieListPage> {
           <String, dynamic>{}) as Map;
       searchMovieList = api.fetchGetMoviePoster(args['movieName']);
       movieData = api.fetchMovieData(args['movieName']);
+      setState(() {});
     });
   }
 
@@ -61,8 +63,8 @@ class _MovieListPageState extends State<MovieListPage> {
                 ),
                 FutureBuilder<List<dynamic>?>(
                   future: Future.wait([
-                    searchMovieList ?? [] as Future<dynamic>,
-                    movieData ?? [] as Future<dynamic>
+                    searchMovieList,
+                    movieData,
                   ]),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -98,6 +100,7 @@ class _MovieListPageState extends State<MovieListPage> {
                                   .map((e) => e.movieCd);
                               return InkWell(
                                 onTap: () {
+                                  print(moviePosters[index].imageLink);
                                   if (!selectData.isNotEmpty) {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
@@ -105,13 +108,28 @@ class _MovieListPageState extends State<MovieListPage> {
                                       duration: Duration(seconds: 1),
                                     ));
                                   } else {
-                                    Navigator.pushNamed(context, '/movieDetailData', arguments: {"movieCode" : selectData, "moviePoster" : moviePosters[index].imageLink});
+                                    Navigator.pushNamed(
+                                        context, '/movieDetailData',
+                                        arguments: {
+                                          "movieCode": selectData.toList()[0],
+                                          "moviePoster":
+                                          moviePosters[index].imageLink?.replaceAll("_320", "_1000")
+                                        });
                                   }
                                 },
                                 child: Column(
                                   children: [
                                     Image.network(
-                                        moviePosters[index].imageLink ?? ""),
+                                      moviePosters[index].imageLink?.replaceAll("_320", "_1000") ?? "",
+                                      fit: BoxFit.fill,
+                                      width: double.infinity,
+                                      height: 200,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) =>
+                                              (loadingProgress == null)
+                                                  ? child
+                                                  : const CircularProgressIndicator(),
+                                    ),
                                     Text(moviePosters[index].movieName ?? "",
                                         overflow: TextOverflow.ellipsis),
                                     Text(
