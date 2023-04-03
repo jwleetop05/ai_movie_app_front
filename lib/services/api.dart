@@ -105,7 +105,7 @@ class Api{
     }
   }
   Future<List<GetMoviePoster>> fetchGetMoviePoster(String movieName) async {
-    final response = await getResponse('http://10.246.157.164:5050/search_movie_poster?movie_name=$movieName');
+    final response = await getResponse('http://10.246.158.64:5050/search_movie_poster?movie_name=$movieName');
     if(response.statusCode == 200) {
       final list = jsonDecode(utf8.decode(response.bodyBytes)) as List;
       return list.map((e) => GetMoviePoster.fromJSON(e as JSON)).toList();
@@ -114,7 +114,7 @@ class Api{
     }
   }
   Future<List<NewMovieList>> fetchNewMovieList() async {
-    final response = await getResponse('http://10.246.157.164:5050/new_movies');
+    final response = await getResponse('http://10.246.158.64:5050/new_movies');
     if(response.statusCode == 200) {
       final list = jsonDecode(utf8.decode(response.bodyBytes)) as List;
       log("아아: $list");
