@@ -21,20 +21,20 @@ class Api{
       return http.Response('', 404);
     }
   }
-  Future<List<MovieData>> fetchMovieData() async {
+  Future<List<MovieData>> fetchMovieData(String movieName) async {
     final response = await getResponse(
         'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?'
             'key=$apiKey'
             '&curPage='
             '&itemPerPage=100'
-            '&openStartDt=2023'
-            '&openEndDt'
-            '&movieNm'
-            '&directorNm'
-            '&prdtStartYear'
-            '&prdtEndYear'
-            '&repNationCd'
-            '&movieTypeCd');
+            '&openStartDt='
+            '&openEndDt='
+            '&movieNm=$movieName'
+            '&directorNm='
+            '&prdtStartYear='
+            '&prdtEndYear='
+            '&repNationCd='
+            '&movieTypeCd=');
     if(response.statusCode == 200) {
       final list = jsonDecode(response.body)['movieListResult']['movieList'] as List;
 

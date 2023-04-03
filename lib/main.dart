@@ -11,6 +11,7 @@ import 'package:movie_app/services/api.dart';
 
 import 'models/movieData.dart';
 import 'models/movieDataDetail.dart';
+import 'movieDetailPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyHomePage(),
         '/movieList': (context) => const MovieListPage(),
+        '/movieDetailData': (context) => const MovieDetailPage(),
       },
     );
   }
@@ -71,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     initialPage: 0,
   );
   final movieNameController = TextEditingController();
-  Future<void> refresh() async {
+  Future<void> MovieListrefresh() async {
     setState(() {
       newMovieList = api.fetchNewMovieList();
     });
@@ -82,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Size size = MediaQuery.of(context).size; // 화면 전체크기
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () => refresh(),
+        onRefresh: () => MovieListrefresh(),
         child: SafeArea(
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
